@@ -16,4 +16,10 @@ router.get('/lists', requireAuthentication, async (req, res, next) => {
   }
 });
 
+router.post('/add', requireAuthentication, async (req, res, next) => {
+  // route to add a book to a user's list
+
+})
+
+
 export default router;

@@ -1,4 +1,4 @@
-import client from '..client.js';
+import client from '../client.js';
 import bcrypt from 'bcrypt';
 
 const SALT_COUNT = 10;
@@ -27,6 +27,8 @@ async function createUser({ email, username, password }) {
 async function getUser({ username, password }) {
   // verifies is the password used during login matches
   // the password that is saved with the usernmae in the db
+  // if it doesn't, the function will return false, if it does, 
+  // the function will return the user without their password
 
   const user = await getUserByUsername(username);
   const hashedPassword = user.password;
@@ -42,7 +44,7 @@ async function getUser({ username, password }) {
 }
 
 async function getUserByUsername(username) {
-  // return user with a usernmae that matches
+  // returns user with a usernmae that matches
   // the password in username
 
   try {

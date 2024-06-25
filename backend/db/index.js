@@ -1,5 +1,5 @@
-import client from "./client";
-import * as models from "./models";
+import client from './client';
+import * as models from './models';
 
 export {
   client,

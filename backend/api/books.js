@@ -94,7 +94,7 @@ router.delete('/:bookId/delete', requireAuthentication, async (req, res, next) =
   const { bookId } = req.params;
 
   try {
-    const userBook = await models.books.getUserBookById(req.user.id, bookId);
+    const userBook = await models.books.getUserBook(req.user.id, bookId);
 
     if (!userBook) {
       return res.status(404).send({

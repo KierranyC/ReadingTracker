@@ -1,12 +1,6 @@
 import express from 'express';
-import {
-  createUser,
-  getUserById,
-  getUser,
-  getUserByUsername,
-  updateUser,
-  deleteUser
-} from '../db/models/users.js';
+// import { createUser, getUserById, getUser, getUserByUsername, updateUser, deleteUser } from '../db/models/users.js';
+import { models } from '../db/index.js';
 import { requireAuthentication } from './utils.js';
 import jwt from 'jsonwebtoken';
 const router = express.Router();
@@ -20,7 +14,7 @@ router.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
-    const user = await getUser({ username, password });
+    const user = await models.users.getUser({ username, password });
 
     if (user) {
       const token = jwt.sign(
@@ -58,7 +52,7 @@ router.post('register', async (req, res, next) => {
   const { email, username, password } = req.body;
 
   try {
-    const _user = await getUserByUsername(username);
+    const _user = await models.users.getUserByUsername(username);
 
     if (_user) {
       res.send({
@@ -71,7 +65,7 @@ router.post('register', async (req, res, next) => {
         message: 'Password is too short!'
       });
     } else {
-      const user = await createUser({ email, username, password });
+      const user = await models.users.createUser({ email, username, password });
 
       const token = jwt.sign({
         id: user.id,
@@ -95,9 +89,8 @@ router.post('register', async (req, res, next) => {
   }
 });
 
-router.patch('/:userId', requireAuthentication, async (req, res, next) => {
+router.patch('/update', requireAuthentication, async (req, res, next) => {
   // route to update user's account
-  const { userId } = req.params;
   const { username, password, email } = req.body;
 
   const updatedFields = {};
@@ -115,46 +108,20 @@ router.patch('/:userId', requireAuthentication, async (req, res, next) => {
   }
 
   try {
-    const bearerHeader = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(bearerHeader, process.env.JWT_SECRET);
 
-    const user = await getUserById(userId);
-
-    if (user.id === decoded.id) {
-      const updatedUser = await updateUser(decoded.id, updatedFields);
-
-      res.send(updatedUser);
-    } else {
-      res.status(403).send({
-        name: 'UnauthorizedUserError',
-        message: `User ${decoded.username} is not allowed to update ${user.username}`
-      });
-    }
+    const updatedUser = await models.users.updateUser(req.user.id, updatedFields);
+    res.send(updatedUser);
   } catch (error) {
     next(error);
   }
 });
 
-router.delete('/:userId/delete', requireAuthentication, async (req, res, next) => {
+router.delete('/delete', requireAuthentication, async (req, res, next) => {
   // route to delete user's account
-  const { userId } = req.body;
 
   try {
-    const bearerHeader = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(bearerHeader, process.env.JWT_SECRET);
-
-    const user = await getUserById(userId);
-
-    if (user.id === decoded.id) {
-      await deleteUser(decoded.id);
-
-
-    } else {
-      res.status(403).send({
-        name: 'UnauthorizedUserError',
-        message: `User ${decoded.username} is not allowed to delete ${user.username}`
-      });
-    }
+    await models.users.deleteUser(req.user.id);
+    res.send({ message: 'Account successfully deleted' });
   } catch (error) {
     next(error);
   }

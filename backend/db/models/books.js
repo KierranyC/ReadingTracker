@@ -1,24 +1,73 @@
 import client from '../client.js';
 
 
-async function addBookToUserList({ }) {
+async function addBookToUserList(userId, status, bookId, started, finished, stopped) {
   // adds a book to the user's list
   try {
     const { rows: [book] } = await client.query(`
-      INSERT INTO 
-    `)
+      INSERT INTO userBooks("userId", status, "bookId", started, finished, stopped)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *;
+    `, [userId, status, bookId, started, finished, stopped]);
 
 
+    return book;
   } catch (error) {
     console.error(error);
   }
 }
 
-async function checkIfBookExists(title, author) {
+async function checkIfBookExists(googleBooksId) {
   // function that checks if a book exists in the books
-  // table, if it doesn't exist the book will be added, if
-  // it does then the function will return false
+  // table, if it does exist the function will return the book, if
+  // it doesn't then the function will return false
 
+  try {
+    const { rows: [book] } = await client.query(`
+      SELECT * FROM books
+      WHERE "googleBookId" = $1;
+    `, [googleBooksId]);
+
+    if (book) {
+      return book;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function addBookToBooksTable(googleBooksId, title, description, author, genre, releaseDate) {
+  // add new book info to the books table
+
+  try {
+    const { rows: [book] } = await client.query(`
+    INSERT INTO books("googleBooksId", title, description, author, genre, "releaseDate")
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *;
+    `, [googleBooksId, title, description, author, genre, releaseDate]);
+
+    return book;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getUserBook(userId, bookId) {
+  // returns a user's book using the id
+
+  try {
+    const { rows: [book] } = await client.query(`
+      SELECT * FROM userBooks
+      WHERE "userId" = $1
+      AND "bookId" = $2;
+    `, [userId, bookId]);
+
+    return book;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function getUserBooksByStatus(userId, status) {
@@ -27,7 +76,8 @@ async function getUserBooksByStatus(userId, status) {
     const { rows } = await client.query(`
       SELECT * FROM userBooks 
       JOIN books ON userBooks.id
-      WHERE userBooks."userId" = ${userId} AND userBooks.status = ${status};
+      WHERE userBooks."userId" = ${userId} 
+      AND userBooks.status = ${status};
     `);
 
     return rows;
@@ -41,7 +91,7 @@ async function getReviewsByUserId(userId) {
   try {
     const { rows } = await client.query(`
       SELECT * FROM reviews
-      WHERE reviews."userId" = $1;
+      WHERE "userId" = $1;
     `, [userId]);
 
     return rows;
@@ -80,9 +130,50 @@ async function getUsersBookLists(userId) {
   }
 };
 
+async function updateUserBookInfo(userId, fields = {}) {
+  // updates a user's book list placement and started, finished, and stopped dates
+  console.log('UPDATED BOOK FIELDS:', fields);
+  try {
+    const string = Object.keys(fields).map((key, index) =>
+      `'${key}' = $${index + 1}`).join(', ');
+    console.log('UPDATED BOOK STRING:', string);
+
+    const { rows: [book] } = await client.query(`
+    UPDATE userBooks
+    SET ${string}
+    WHERE id=${userId}
+    RETURNING *;
+    `, Object.values(fields));
+
+    return book;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function deleteUserBook(userId, bookId) {
+  // deletes a book from a user's list
+
+  try {
+    await client.query(`
+    DELETE FROM userBooks
+    WHERE "userId"=${userId}
+    AND "bookId"=${bookId};
+    `);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 export {
   checkIfBookExists,
   addBookToUserList,
-  getUsersBookLists
+  getUsersBookLists,
+  getReviewsByUserId,
+  addBookToBooksTable,
+  addBookToUserList,
+  updateUserBookInfo,
+  getUserBook,
+  deleteUserBook
 };

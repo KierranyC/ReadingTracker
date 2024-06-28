@@ -81,7 +81,7 @@ router.patch('/:bookId/update', requireAuthentication, async (req, res, next) =>
       });
     }
 
-    const updateBook = await models.books.updateUserBookInfo(req.user.id, updatedFields);
+    const updateBook = await models.books.updateUserBookInfo(bookId, updatedFields);
 
     res.send(updateBook);
   } catch (error) {

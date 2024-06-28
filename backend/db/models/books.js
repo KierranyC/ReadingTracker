@@ -130,7 +130,7 @@ async function getUsersBookLists(userId) {
   }
 };
 
-async function updateUserBookInfo(userId, fields = {}) {
+async function updateUserBookInfo(userBookId, fields = {}) {
   // updates a user's book list placement and started, finished, and stopped dates
   console.log('UPDATED BOOK FIELDS:', fields);
   try {
@@ -141,7 +141,7 @@ async function updateUserBookInfo(userId, fields = {}) {
     const { rows: [book] } = await client.query(`
     UPDATE userBooks
     SET ${string}
-    WHERE id=${userId}
+    WHERE id=${userBookId}
     RETURNING *;
     `, Object.values(fields));
 
@@ -151,14 +151,15 @@ async function updateUserBookInfo(userId, fields = {}) {
   }
 }
 
-async function deleteUserBook(userId, bookId) {
+async function deleteUserBook(userId, userBookId) {
   // deletes a book from a user's list
 
   try {
     await client.query(`
     DELETE FROM userBooks
     WHERE "userId"=${userId}
-    AND "bookId"=${bookId};
+    AND id=${userBookId}
+    RETURNING *;
     `);
   } catch (error) {
     console.error(error);

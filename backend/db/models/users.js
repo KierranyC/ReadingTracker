@@ -111,17 +111,20 @@ async function deleteUser(id) {
   try {
     await client.query(`
     DELETE FROM books
-    WHERE "userId"=${id};
+    WHERE "userId"=${id}
+    RETURNING*;
     `);
 
     await client.query(`
     DELETE FROM reviews
-    WHERE "userId"=${id};
+    WHERE "userId"=${id}
+    RETURNING *;
     `);
 
     await client.query(`
     DELETE FROM users
-    WHERE users.id=${id};
+    WHERE users.id=${id}
+    RETURNING *;
     `);
 
   } catch (error) {
@@ -136,4 +139,4 @@ export {
   getUserById,
   updateUser,
   deleteUser
-}
+};

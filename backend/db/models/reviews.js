@@ -44,7 +44,7 @@ async function updateReview(reviewId, fields = {}) {
     const { rows: [review] } = await client.query(`
     UPDATE reviews
     SET ${string}
-    AND id = ${reviewId}
+    WHERE id = ${reviewId}
     RETURNING *;
     `, Object.values(fields));
 
@@ -60,7 +60,7 @@ async function deleteReview(reviewId) {
   try {
     await client.query(`
     DELETE FROM reviews
-    AND id=${reviewId}
+    WHERE id=${reviewId}
     RETURNING *;
     `);
   } catch (error) {

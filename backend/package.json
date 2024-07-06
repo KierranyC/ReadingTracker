@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server:dev": "nodemon index.js",
+    "start": "node index.js",
+    "seed:heroku": "nodemon backend/db/seed.js",
+    "migrate": "node-pg-migrate -m migrations"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +18,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "faker": "^6.6.6",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "node-pg-migrate": "^7.3.2",
+    "nodemon": "^3.1.4",
     "pg": "^8.11.5"
   }
 }

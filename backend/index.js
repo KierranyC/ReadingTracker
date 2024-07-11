@@ -1,6 +1,8 @@
 import { configDotenv } from 'dotenv';
 configDotenv();
 import express from 'express';
+import { client } from "./db/index.js";
+import apiRouter from "./api/index.js";
 import cors from 'cors';
 import morgan from 'morgan';
 import path from 'path';
@@ -12,6 +14,7 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 server.use(express.static(path.join(__dirname, '../frontend/build')));
 
 server.use(morgan('dev')); // logging
+server.use(cors());
 server.use(express.json()); // json parsing
 
 // api
@@ -24,7 +27,8 @@ server.get('*', function (req, res) {
 
 // connect to server
 
-const PORT = process.env.PORT || 4000;
+// const PORT = process.env.PORT || 4000;
+const PORT = 4000;
 
 // define server handle to close open tcp connection after unit tests have run
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Link } from '@mui/material';
+// import { Link } from '@mui/material';
 
 export const Navbar = ({ token, setToken }) => {
   const navigate = useNavigate();
@@ -9,9 +9,7 @@ export const Navbar = ({ token, setToken }) => {
     setToken('');
     localStorage.removeItem('token');
     console.log('You are now logged out!');
-    if (!token) {
-      navigate('/')
-    }
+    navigate('/');
   };
 
   return (

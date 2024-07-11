@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../api';
 
@@ -11,7 +11,7 @@ export const SignUp = ({ setToken }) => {
   const handleSignUp = async (event) => {
     event.preventDefault();
 
-    const signUpData = async (event) => {
+    const signUpData = async () => {
       try {
         const result = await signUp(email, username, password);
         setToken(result.token);
@@ -26,7 +26,7 @@ export const SignUp = ({ setToken }) => {
       }
     };
     signUpData();
-  }
+  };
   
   return (
     <div className='text-center form'>
@@ -57,7 +57,7 @@ export const SignUp = ({ setToken }) => {
         <label>
           Password:
           <input
-            type='text'
+            type='password'
             placeholder='Password'
             value={password}
             minLength={8}

@@ -43,7 +43,7 @@ router.post('/login', async (req, res, next) => {
   };
 });
 
-router.post('register', async (req, res, next) => {
+router.post('/register', async (req, res, next) => {
   // route to register new user
   // checks if username is already taken and if password
   // is too short, send error messages if both are true, if 

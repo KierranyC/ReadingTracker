@@ -1,4 +1,4 @@
-import client from "../client";
+import client from "../client.js";
 
 async function createReview(userId, userBookId, rating, reviewContent) {
   // function that adds a user's review to the database

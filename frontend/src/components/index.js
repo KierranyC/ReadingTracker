@@ -1,7 +1,8 @@
-export { default as Login } from './Login.js';
-export { default as SignUp } from './SignUp.js';
-export { default as BookSearch } from './BookSearch.js';
-export { default as LandingPage } from './LandingPage.js';
-export { default as Navbar } from './Navbar.js';
-export { default as MyLibrary } from './MyLibrary.js';
+export { App } from "./App.js";
+export { Login } from './Login.js';
+export { SignUp } from './SignUp.js';
+export { BookSearch } from './BookSearch.js';
+export { LandingPage } from './LandingPage.js';
+export { Navbar } from './Navbar.js';
+export { MyLibrary } from './MyLibrary.js';
 

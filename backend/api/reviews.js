@@ -69,4 +69,6 @@ router.delete('/:reviewId/delete', requireAuthentication, async (req, res, next)
   } catch (error) {
     next(error);
   }
-})
+});
+
+export default router;

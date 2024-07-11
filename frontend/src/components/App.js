@@ -16,6 +16,13 @@ export const App = () => {
 
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('token', token);
   }, [token]);
 
@@ -25,11 +32,11 @@ export const App = () => {
         <Navbar token={token} setToken={setToken} />
         <Routes>
           <Route path='/' element={<LandingPage token={token} />} />
-          <Route path='/signup' element={<SignUp token={setToken} />} />
-          <Route path='/login' element={<Login token={setToken} />} />
+          <Route path='/signup' element={<SignUp setToken={setToken} />} />
+          <Route path='/login' element={<Login setToken={setToken} />} />
           <Route path='/mylibrary' element={<MyLibrary />} />
         </Routes>
       </div>
     </BrowserRouter>
-  )
-}
+  );
+};

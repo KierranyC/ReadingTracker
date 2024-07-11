@@ -173,7 +173,6 @@ export {
   getUsersBookLists,
   getReviewsByUserId,
   addBookToBooksTable,
-  addBookToUserList,
   updateUserBookInfo,
   getUserBook,
   deleteUserBook

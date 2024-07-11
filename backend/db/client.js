@@ -18,7 +18,7 @@ if (DB_URL) {
     connectionString: DB_URL,
     ssl: {
       require: true,
-      rejectUnauthorized: false // This is to allow self-signed certificates on Heroku PostgreSQL
+      rejectUnauthorized: false
     }
   });
 } else {
@@ -27,8 +27,8 @@ if (DB_URL) {
     host: 'localhost',
     port: 5432,
     user: 'postgres',
-    password: 'postgres',
-    database: 'postgres',
+    password: 'kizpc',
+    database: 'readingtrackerapp',
   });
 }
 

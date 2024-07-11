@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { getUserById } from '../db/models/users';
+import { getUserById } from '../db/models/users.js';
 
 export const requireAuthentication = async (req, res, next) => {
   // ensures that a user is authorized to access a route

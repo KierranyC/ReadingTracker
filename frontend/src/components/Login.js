@@ -13,7 +13,7 @@ export const Login = ({ setToken }) => {
 
     const loginData = async () => {
       try {
-        const result = await loginUser(email, username, password);
+        const result = await loginUser(username, password);
         setToken(result.token);
         setUsername('');
         setPassword('');
@@ -44,7 +44,7 @@ export const Login = ({ setToken }) => {
         <label>
           Password:
           <input
-            type='text'
+            type='password'
             placeholder='Password'
             value={password}
             required

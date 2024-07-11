@@ -21,9 +21,9 @@ export async function createTables() {
     description TEXT NOT NULL,
     author TEXT NOT NULL,
     genre VARCHAR(50) NOT NULL,
-    "releaseDate" DATE,
+    "releaseDate" DATE
     );
-    CREATE TABLE "userBooks" (
+    CREATE TABLE userBooks (
     id SERIAL PRIMARY KEY,
     "userId" INTEGER REFERENCES users(id),
     "bookId" INTEGER REFERENCES books(id),
@@ -36,21 +36,21 @@ export async function createTables() {
     id SERIAL PRIMARY KEY,
     "userId" INTEGER REFERENCES users(id),
     "userBookId" INTEGER REFERENCES userBooks(id),
-    rating DECIMAL (2,1) CHECK (rating >= 0.0 AND rating <= 5.0,
+    rating DECIMAL (2,1) CHECK (rating >= 0.0 AND rating <= 5.0),
     "reviewContent" TEXT
     );
     `);
 
     console.log('Finished creating tables!');
   } catch (error) {
-    console.error('Error creating tables!');
+    console.error('Error creating tables!', error);
   }
 }
 
 export async function dropTables() {
   try {
     console.log('Dropping all tables...');
-
+ 
     await client.query(`
     DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS userBooks;

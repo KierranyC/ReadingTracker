@@ -2,6 +2,7 @@ import React from 'react';
 import { BookSearch } from './BookSearch';
 import { Login } from './Login';
 import { SignUp } from './SignUp';
+import { Link } from 'react-router-dom';
 
 export const LandingPage = ({ token }) => {
 
@@ -9,16 +10,16 @@ export const LandingPage = ({ token }) => {
   if (token) {
     return (
       <div>
-        <BookSearch/>
+        <BookSearch />
       </div>
-    )
+    );
   } else {
     return (
       <div>
         <h1>Welcome to Page Trail!</h1>
-        <Login />
-        <SignUp/>
+        <Link to='/login'>Login</Link>
+        <Link to='/signup'>Sign Up</Link>
       </div>
-    )
+    );
   }
-}
+};

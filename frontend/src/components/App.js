@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { LandingPage } from './LandingPage';
+import {
+  LandingPage,
+  Login,
+  SignUp,
+  BookSearch,
+  Navbar,
+  MyLibrary
+} from './index.js';
 
 export const App = () => {
   const [googleBooks, setGoogleBooks] = useState([]);
@@ -18,6 +25,9 @@ export const App = () => {
         <Navbar token={token} setToken={setToken} />
         <Routes>
           <Route path='/' element={<LandingPage token={token} />} />
+          <Route path='/signup' element={<SignUp token={setToken} />} />
+          <Route path='/login' element={<Login token={setToken} />} />
+          <Route path='/mylibrary' element={<MyLibrary />} />
         </Routes>
       </div>
     </BrowserRouter>

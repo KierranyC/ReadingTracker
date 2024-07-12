@@ -27,7 +27,7 @@ if (DB_URL) {
     host: 'localhost',
     port: 5432,
     user: 'postgres',
-    password: 'kizpc',
+    password: `${process.env.DB_PASSWORD}`,
     database: 'readingtrackerapp',
   });
 }

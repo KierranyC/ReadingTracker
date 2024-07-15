@@ -5,7 +5,7 @@ async function addBookToUserList(userId, status, bookId, started, finished, stop
   // adds a book to the user's list
   try {
     const { rows: [book] } = await client.query(`
-      INSERT INTO userBooks("userId", status, "bookId", started, finished, stopped)
+      INSERT INTO "userBooks" ("userId", status, "bookId", started, finished, stopped)
       VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *;
     `, [userId, status, bookId, started, finished, stopped]);
@@ -43,7 +43,7 @@ async function addBookToBooksTable(googleBooksId, title, description, author, ge
 
   try {
     const { rows: [book] } = await client.query(`
-    INSERT INTO books("googleBooksId", title, description, author, genre, "releaseDate")
+    INSERT INTO books ("googleBooksId", title, description, author, genre, "releaseDate")
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
     `, [googleBooksId, title, description, author, genre, releaseDate]);
@@ -59,7 +59,7 @@ async function getUserBook(userId, bookId) {
 
   try {
     const { rows: [book] } = await client.query(`
-      SELECT * FROM userBooks
+      SELECT * FROM "userBooks"
       WHERE "userId" = $1
       AND "bookId" = $2;
     `, [userId, bookId]);
@@ -74,10 +74,10 @@ async function getUserBooksByStatus(userId, status) {
   // function that fetches a user's book list
   try {
     const { rows } = await client.query(`
-      SELECT * FROM userBooks 
-      JOIN books ON userBooks.id
-      WHERE userBooks."userId" = ${userId} 
-      AND userBooks.status = ${status};
+      SELECT * FROM "userBooks" 
+      JOIN books ON "userBooks".id
+      WHERE "userBooks"."userId" = ${userId} 
+      AND "userBooks".status = ${status};
     `);
 
     return rows;
@@ -139,7 +139,7 @@ async function updateUserBookInfo(userBookId, fields = {}) {
     console.log('UPDATED BOOK STRING:', string);
 
     const { rows: [book] } = await client.query(`
-    UPDATE userBooks
+    UPDATE "userBooks"
     SET ${string}
     WHERE id=${userBookId}
     RETURNING *;
@@ -156,7 +156,7 @@ async function deleteUserBook(userId, userBookId) {
 
   try {
     await client.query(`
-    DELETE FROM userBooks
+    DELETE FROM "userBooks"
     WHERE "userId"=${userId}
     AND id=${userBookId}
     RETURNING *;

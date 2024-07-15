@@ -23,7 +23,7 @@ export async function createTables() {
     genre VARCHAR(50) NOT NULL,
     "releaseDate" DATE
     );
-    CREATE TABLE userBooks (
+    CREATE TABLE "userBooks" (
     id SERIAL PRIMARY KEY,
     "userId" INTEGER REFERENCES users(id),
     "bookId" INTEGER REFERENCES books(id),
@@ -35,7 +35,7 @@ export async function createTables() {
     CREATE TABLE reviews (
     id SERIAL PRIMARY KEY,
     "userId" INTEGER REFERENCES users(id),
-    "userBookId" INTEGER REFERENCES userBooks(id),
+    "userBookId" INTEGER REFERENCES "userBooks"(id),
     rating DECIMAL (2,1) CHECK (rating >= 0.0 AND rating <= 5.0),
     "reviewContent" TEXT
     );

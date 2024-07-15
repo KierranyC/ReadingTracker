@@ -51,5 +51,22 @@ export const signUp = async (email, username, password) => {
   }
 }
 
+// book endpoints
+
+// get - book search
+
+  
+export const fetchBooks = async (searchTerm) => {
+
+try {
+  const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`);
+  const result = await response.json();
+
+  console.log(result.items); 
+  return result;
+} catch (error) {
+  console.error(error);
+  }
+}
 
 

@@ -1,16 +1,14 @@
 import React from 'react';
 import { BookSearch } from './BookSearch';
-import { Login } from './Login';
-import { SignUp } from './SignUp';
 import { Link } from 'react-router-dom';
 
-export const LandingPage = ({ token }) => {
+export const LandingPage = ({ token, googleBooks, setGoogleBooks }) => {
 
 
   if (token) {
     return (
       <div>
-        <BookSearch />
+        <BookSearch googleBooks={googleBooks} setGoogleBooks={setGoogleBooks} />
       </div>
     );
   } else {

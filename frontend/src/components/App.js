@@ -8,6 +8,7 @@ import {
   Navbar,
   MyLibrary
 } from './index.js';
+import '../style.css';
 
 export const App = () => {
   const [googleBooks, setGoogleBooks] = useState([]);
@@ -31,7 +32,7 @@ export const App = () => {
       <div id='app'>
         <Navbar token={token} setToken={setToken} />
         <Routes>
-          <Route path='/' element={<LandingPage token={token} />} />
+          <Route path='/' element={<LandingPage token={token} googleBooks={googleBooks} setGoogleBooks={setGoogleBooks} />} />
           <Route path='/signup' element={<SignUp setToken={setToken} />} />
           <Route path='/login' element={<Login setToken={setToken} />} />
           <Route path='/mylibrary' element={<MyLibrary />} />

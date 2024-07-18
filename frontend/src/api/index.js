@@ -55,17 +55,29 @@ export const signUp = async (email, username, password) => {
 
 // get - book search
 
-  
+
 export const fetchBooks = async (searchTerm) => {
 
-try {
-  const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`);
-  const result = await response.json();
+  try {
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`);
+    const result = await response.json();
 
-  console.log(result.items); 
-  return result;
-} catch (error) {
-  console.error(error);
+    const filteredResults = result.items.map(book => {
+      return {
+        googleBooksId: book.id,
+        title: book.volumeInfo.title,
+        description: book.volumeInfo.description,
+        authors: book.volumeInfo.authors,
+        genre: book.volumeInfo.categories ? book.volumeInfo.categories : 'Genre Not Available',
+        releaseDate: book.volumeInfo.publishedDate
+      }
+    }
+    )
+    console.log('BOOK SEARCH RESULTS:', filteredResults);
+
+    return filteredResults;
+  } catch (error) {
+    console.error(error);
   }
 }
 

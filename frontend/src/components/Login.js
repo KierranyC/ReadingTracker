@@ -38,6 +38,7 @@ export const Login = ({ setToken }) => {
             placeholder='Username'
             value={username}
             required
+            id='login-username'
             onChange={(event) => setUsername(event.target.value)}
           />
         </label>
@@ -48,6 +49,7 @@ export const Login = ({ setToken }) => {
             placeholder='Password'
             value={password}
             required
+            id='login-password'
             onChange={(event) => setPassword(event.target.value)}
           />
         </label>

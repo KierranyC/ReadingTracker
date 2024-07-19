@@ -67,8 +67,8 @@ export const fetchBooks = async (searchTerm) => {
         googleBooksId: book.id,
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
-        authors: book.volumeInfo.authors,
-        genre: book.volumeInfo.categories ? book.volumeInfo.categories : 'Genre Not Available',
+        authors: book.volumeInfo.authors ? book.volumeInfo.authors : ['Author(s) Not Available'],
+        genre: book.volumeInfo.categories ? book.volumeInfo.categories[0] : 'Genre Not Available',
         releaseDate: book.volumeInfo.publishedDate
       }
     }
@@ -80,5 +80,6 @@ export const fetchBooks = async (searchTerm) => {
     console.error(error);
   }
 }
+
 
 
